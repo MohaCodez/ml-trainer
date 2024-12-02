@@ -1,0 +1,78 @@
+<div class="home-container">
+    <h1>Trained Models</h1>  
+
+    <div *ngIf="loading" class="loading-spinner">
+        <p-progressSpinner></p-progressSpinner>
+        <p>Loading models...</p>
+    </div>
+
+    <p-message *ngIf="error" severity="error" [text]="error"></p-message>
+
+    <div *ngIf="!loading && !error && trainedModels.length === 0" class="no-models">
+        <p>No trained models found. Try training some models first.</p>
+    </div>
+
+    <ng-container *ngIf="!loading && !error && trainedModels.length > 0">
+        <div class="sort-bar">
+            <label for="sortOptions">Sort by:</label>
+            <p-dropdown 
+                id="sortOptions" 
+                [options]="sortOptions" 
+                [(ngModel)]="selectedSort" 
+                (onChange)="sortModels()" 
+                placeholder="Select a sorting option">
+            </p-dropdown>
+        </div>
+
+        <div class="search-bar">
+            <p-inputText 
+                [(ngModel)]="searchTerm" 
+                (input)="filterModels()" 
+                placeholder="Search by feature or model type" 
+                styleClass="search-input" 
+                [style]="{'width': '300px'}">
+            </p-inputText>
+        </div>
+
+        <div class="table-container">
+            <p-table [value]="filteredModels" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Model ID</th>
+                        <th>Dataset</th>
+                        <th>Model</th>
+                        <th>R² Score</th>
+                        <th>MSE</th>
+                        <th>MAE</th>
+                        <th>RMSE</th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-model>
+                    <tr>
+                        <td>{{model.id}}</td>
+                        <td>{{model.dataset}}</td>
+                        <td>{{model.model}}</td>
+                        <td>{{model.metrics.r2_score | number:'1.4-4'}}</td>
+                        <td>{{model.metrics.mse | number:'1.4-4'}}</td>
+                        <td>{{model.metrics.mae | number:'1.4-4'}}</td>
+                        <td>{{model.metrics.rmse | number:'1.4-4'}}</td>
+                        <td>
+                            <p-button label="View Details" 
+                                     icon="pi pi-info-circle" 
+                                     (onClick)="viewModelDetails(model.id)">
+                            </p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-button label="Train New Model" 
+                 icon="pi pi-plus" 
+                 (onClick)="navigateToTrainForm()" 
+                 styleClass="p-button-success">
+        </p-button>
+    </ng-container>
+</div>

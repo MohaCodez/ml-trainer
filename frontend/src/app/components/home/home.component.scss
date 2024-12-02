@@ -1,0 +1,75 @@
+.home-container {
+    width: 100%; /* Set the width to 90% of the screen */
+    max-width: 1200px; /* Optional: Set a maximum width for larger screens */
+    padding: 40px; /* Increase padding for more space inside the container */
+    background-color: #f9f9f9; /* Light background for contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin: 0 auto; /* Center the container */
+}
+
+h1 {
+    color: #333; /* Darker text for better readability */
+    margin-bottom: 20px; /* Space below the heading */
+    font-size: 2rem; /* Increase font size for headings */
+}
+
+.sort-bar, .search-bar {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.sort-bar label {
+    margin-right: 10px; /* Space between label and dropdown */
+    font-weight: bold; /* Bold label */
+}
+
+.search-input {
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px; /* Padding for better touch targets */
+    width: 300px; /* Fixed width for search input */
+}
+
+.table-container {
+    width: 100%; /* Set the width to 75% of the screen */
+    margin: 0 auto; /* Center the table */
+    background-color: #fff; /* White background for the table */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Prevent overflow */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.p-table {
+    border-radius: 8px; /* Rounded corners for the table */
+}
+
+.p-button {
+    margin-right: 10px; /* Space between buttons */
+}
+
+.no-models {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  margin: 1rem 0;
+
+  p {
+    color: #6c757d;
+    font-size: 1.1rem;
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+
+  p {
+    margin-top: 1rem;
+    color: #6c757d;
+  }
+}

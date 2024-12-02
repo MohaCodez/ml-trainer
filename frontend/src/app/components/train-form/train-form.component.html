@@ -1,0 +1,133 @@
+<div class="form-container">
+  <h2>Train Multiple Models</h2>
+
+  <form [formGroup]="trainForm" (ngSubmit)="onSubmit()">
+    <!-- File Upload Section -->
+    <div class="file-upload-section">
+      <div class="p-field">
+        <label>Dataset File</label>
+        <p-fileUpload 
+          mode="basic" 
+          chooseLabel="Choose CSV File" 
+          [auto]="true"
+          accept=".csv" 
+          [maxFileSize]="1000000"
+          (onSelect)="onFileSelect($event)">
+        </p-fileUpload>
+      </div>
+    </div>
+
+    <!-- Target Column Section -->
+    <div class="target-column-section">
+      <div class="p-field">
+        <label>Target Columns</label>
+        <p-multiSelect 
+          [options]="availableColumns"
+          formControlName="target_columns"
+          [showToggleAll]="true"
+          placeholder="Select target columns"
+          optionLabel="label"
+          optionValue="value"
+          [filter]="true"
+          [showHeader]="true"
+          [showClear]="true">
+          <ng-template let-value pTemplate="selectedItems">
+            <div class="selected-items">
+              <span *ngFor="let val of value" class="selected-item">
+                {{val}}
+              </span>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+    </div>
+
+    <!-- Models Section -->
+    <div formArrayName="models">
+      <div *ngFor="let model of models.controls; let i=index" [formGroupName]="i" class="model-section">
+        <h3>Model {{i + 1}}</h3>
+        
+        <!-- Model Type Selection -->
+        <div class="p-field">
+          <label>Model Type</label>
+          <p-dropdown 
+            [options]="modelTypes" 
+            formControlName="model_type"
+            placeholder="Select a model type"
+            [showClear]="true"
+            optionLabel="label"
+            optionValue="value">
+          </p-dropdown>
+        </div>
+
+        <!-- Hyperparameters -->
+        <div formGroupName="hyperparameters" class="hyperparameters-section">
+          <h4>Hyperparameters</h4>
+          <ng-container *ngFor="let param of getHyperparameters(model.get('model_type')?.value)">
+            <div class="p-field">
+              <label>{{param.name | titlecase}}</label>
+              <ng-container [ngSwitch]="param.type">
+                <!-- Boolean parameter -->
+                <p-inputSwitch *ngSwitchCase="'boolean'"
+                  [formControlName]="param.name">
+                </p-inputSwitch>
+                
+                <!-- Number parameter -->
+                <p-inputNumber *ngSwitchCase="'number'"
+                  [formControlName]="param.name"
+                  [min]="getParamMin(param)"
+                  [max]="getParamMax(param)"
+                  [step]="getParamStep(param)"
+                  [showButtons]="true">
+                </p-inputNumber>
+                
+                <!-- Select parameter -->
+                <p-dropdown *ngSwitchCase="'select'"
+                  [formControlName]="param.name"
+                  [options]="getParamOptions(param)"
+                  optionLabel="label"
+                  optionValue="value"
+                  [showClear]="false">
+                </p-dropdown>
+                
+                <!-- String parameter -->
+                <input *ngSwitchCase="'string'"
+                  pInputText
+                  [formControlName]="param.name">
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- Remove Model Button -->
+        <button pButton type="button" 
+                label="Remove Model" 
+                icon="pi pi-trash"
+                class="p-button-danger"
+                (click)="removeModel(i)">
+        </button>
+      </div>
+    </div>
+
+    <!-- Button Section -->
+    <div class="button-section">
+      <button pButton type="button" 
+              label="Add Model" 
+              icon="pi pi-plus"
+              class="p-button-secondary"
+              (click)="addModel()">
+      </button>
+
+      <button pButton type="submit" 
+              label="Train Models" 
+              icon="pi pi-cog"
+              [loading]="loading"
+              [disabled]="!trainForm.valid || !selectedFile">
+      </button>
+    </div>
+  </form>
+
+  <!-- Messages -->
+  <p-toast></p-toast>
+</div>
+    

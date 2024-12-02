@@ -1,0 +1,7 @@
+node_modules/
+dist/
+__pycache__/
+*.py[cod]
+*.sqlite3
+venv/
+db.sqlite3

@@ -1,0 +1,78 @@
+<div class="dashboard-container">
+  <h2>Model Performance Comparison</h2>
+
+  <!-- Filters Section -->
+  <div class="filters-container">
+    <div class="filter-group">
+      <label>Dataset</label>
+      <p-dropdown
+        [options]="uniqueDatasets"
+        [(ngModel)]="selectedDataset"
+        (onChange)="filterModels()"
+        placeholder="Select Dataset"
+        [showClear]="true">
+      </p-dropdown>
+    </div>
+
+    <div class="filter-group">
+      <label>Model Type</label>
+      <p-dropdown
+        [options]="uniqueModelTypes"
+        [(ngModel)]="selectedModelType"
+        (onChange)="filterModels()"
+        placeholder="Select Model Type"
+        [showClear]="true">
+      </p-dropdown>
+    </div>
+  </div>
+
+  <!-- Charts Grid -->
+  <div class="charts-container">
+    <div class="chart-wrapper">
+      <h3>Performance Metrics Comparison</h3>
+      <canvas id="barChart"></canvas>
+    </div>
+    
+    <div class="chart-wrapper">
+      <h3>Metrics Radar Analysis</h3>
+      <canvas id="radarChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Metrics Table -->
+  <div class="metrics-table">
+    <h3>Detailed Performance Analysis</h3>
+    <p-table 
+      [value]="results" 
+      [paginator]="true" 
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} models"
+      responsiveLayout="scroll"
+      [rowHover]="true"
+      styleClass="p-datatable-striped">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Dataset</th>
+          <th>Model Type</th>
+          <th>R² Score</th>
+          <th>MSE</th>
+          <th>MAE</th>
+          <th>RMSE</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-model>
+        <tr>
+          <td>{{model.dataset}}</td>
+          <td>{{model.model}}</td>
+          <td [ngStyle]="{'color': model.metrics.r2_score > 0.9 ? '#4caf50' : '#f44336'}">
+            {{model.metrics.r2_score | number:'1.4-4'}}
+          </td>
+          <td>{{model.metrics.mse | number:'1.4-4'}}</td>
+          <td>{{model.metrics.mae | number:'1.4-4'}}</td>
+          <td>{{model.metrics.rmse | number:'1.4-4'}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

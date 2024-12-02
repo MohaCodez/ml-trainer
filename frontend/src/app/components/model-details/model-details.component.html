@@ -1,0 +1,71 @@
+<div class="model-details-container">
+  <div class="header">
+    <p-button icon="pi pi-arrow-left" 
+              (onClick)="goBack()" 
+              styleClass="p-button-text"
+              label="Back to Models">
+    </p-button>
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <p-progressSpinner></p-progressSpinner>
+    <p>Loading model details...</p>
+  </div>
+
+  <p-message *ngIf="error" severity="error" [text]="error"></p-message>
+
+  <div *ngIf="!loading && !error && model" class="content">
+    <h2>Model Details</h2>
+
+    <div class="info-section">
+      <h3>Basic Information</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Model ID:</label>
+          <span>{{model.id}}</span>
+        </div>
+        <div class="info-item">
+          <label>Dataset:</label>
+          <span>{{model.dataset}}</span>
+        </div>
+        <div class="info-item">
+          <label>Model Type:</label>
+          <span>{{model.model}}</span>
+        </div>
+        <div class="info-item">
+          <label>Created At:</label>
+          <span>{{model.created_at | date:'medium'}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics-section">
+      <h3>Model Performance Metrics</h3>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <h4>R² Score</h4>
+          <p>{{model.metrics.r2_score | number:'1.4-4'}}</p>
+        </div>
+        <div class="metric-card">
+          <h4>MSE</h4>
+          <p>{{model.metrics.mse | number:'1.4-4'}}</p>
+        </div>
+        <div class="metric-card">
+          <h4>MAE</h4>
+          <p>{{model.metrics.mae | number:'1.4-4'}}</p>
+        </div>
+        <div class="metric-card">
+          <h4>RMSE</h4>
+          <p>{{model.metrics.rmse | number:'1.4-4'}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h3>Feature Importance Analysis</h3>
+      <div class="chart-container">
+        <canvas id="featureImportanceChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,32 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <i class="pi pi-seedling"></i>
+    <span class="brand-text">Plant Trainer</span>
+  </div>
+  <ul class="navbar-menu">
+    <li>
+      
+    </li>
+    <li>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="navbar-item">
+        <i class="pi pi-home"></i>
+        <span> Home</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/train-form" routerLinkActive="active" class="navbar-item">
+        <i class="pi pi-cog"></i>
+        <span> Train Model</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/model-comparison" routerLinkActive="active" class="navbar-item">
+        <i class="pi pi-chart-bar"></i>
+        <span> Compare Models</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
